@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { X, Mail, Lock, LogIn, ArrowRight } from 'lucide-react';
+import { supabase } from '../lib/supabase';
+import { X, Mail, Lock, LogIn, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface AuthModalProps {
@@ -11,18 +11,39 @@ interface AuthModalProps {
 }
 
 const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, mode, onSwitchMode }) => {
-    const { login, signup } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [message, setMessage] = useState<string | null>(null);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (mode === 'login') {
-            login(email);
-        } else {
-            signup(email);
+        setLoading(true);
+        setError(null);
+        setMessage(null);
+
+        try {
+            if (mode === 'signup') {
+                const { error } = await supabase.auth.signUp({
+                    email,
+                    password,
+                });
+                if (error) throw error;
+                setMessage('Account created! Please check your email to confirm.');
+            } else {
+                const { error } = await supabase.auth.signInWithPassword({
+                    email,
+                    password,
+                });
+                if (error) throw error;
+                onClose();
+            }
+        } catch (err: any) {
+            setError(err.message || 'Authentication failed');
+        } finally {
+            setLoading(false);
         }
-        onClose();
     };
 
     return (
@@ -57,6 +78,20 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, mode, onSwitchMo
                             </p>
                         </div>
 
+                        {error && (
+                            <div className="mb-4 p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl flex items-center gap-2 text-rose-200 text-xs">
+                                <AlertCircle size={16} />
+                                {error}
+                            </div>
+                        )}
+
+                        {message && (
+                            <div className="mb-4 p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center gap-2 text-emerald-200 text-xs">
+                                <AlertCircle size={16} />
+                                {message}
+                            </div>
+                        )}
+
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div className="space-y-2">
                                 <div className="relative group">
@@ -85,9 +120,10 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, mode, onSwitchMo
 
                             <button
                                 type="submit"
-                                className="w-full bg-primary-600 hover:bg-primary-500 py-3 rounded-xl font-bold text-sm shadow-lg shadow-primary-600/20 active:scale-95 transition-all flex items-center justify-center gap-2"
+                                disabled={loading}
+                                className="w-full bg-primary-600 hover:bg-primary-500 py-3 rounded-xl font-bold text-sm shadow-lg shadow-primary-600/20 active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                {mode === 'login' ? <LogIn size={18} /> : <ArrowRight size={18} />}
+                                {loading ? <Loader2 size={18} className="animate-spin" /> : (mode === 'login' ? <LogIn size={18} /> : <ArrowRight size={18} />)}
                                 {mode === 'login' ? 'Sign In' : 'Create Account'}
                             </button>
                         </form>

@@ -162,22 +162,39 @@ const AppContent: React.FC = () => {
             <Code2 size={16} className="text-primary-400" />
             <span className="text-xs font-bold uppercase tracking-wider text-gray-400">Source Buffer</span>
           </div>
-          <Editor
-            height="100%"
-            defaultLanguage="javascript"
-            theme="vs-dark"
-            value={code}
-            onChange={(val) => setCode(val || '')}
-            options={{
-              fontSize: 14,
-              fontFamily: 'JetBrains Mono',
-              minimap: { enabled: false },
-              padding: { top: 20 },
-              scrollBeyondLastLine: false,
-              renderLineHighlight: 'all',
-              lineNumbersMinChars: 3,
-            }}
-          />
+
+          {/* Mobile Fallback: Native Textarea */}
+          <div className="block md:hidden flex-1 h-full bg-[#1e1e1e]">
+            <textarea
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              className="w-full h-full bg-transparent text-gray-300 font-mono text-sm p-4 outline-none resize-none"
+              spellCheck={false}
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+            />
+          </div>
+
+          {/* Desktop: Monaco Editor */}
+          <div className="hidden md:block flex-1 h-full">
+            <Editor
+              height="100%"
+              defaultLanguage="javascript"
+              theme="vs-dark"
+              value={code}
+              onChange={(val) => setCode(val || '')}
+              options={{
+                fontSize: 14,
+                fontFamily: 'JetBrains Mono',
+                minimap: { enabled: false },
+                padding: { top: 20 },
+                scrollBeyondLastLine: false,
+                renderLineHighlight: 'all',
+                lineNumbersMinChars: 3,
+              }}
+            />
+          </div>
         </div>
 
         {/* Review Side */}

@@ -40,7 +40,8 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, mode, onSwitchMo
                 onClose();
             }
         } catch (err: any) {
-            setError(err.message || 'Authentication failed');
+            console.error('Full Auth Error:', err);
+            setError(err.message || JSON.stringify(err) || 'Authentication failed');
         } finally {
             setLoading(false);
         }
@@ -135,6 +136,13 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, mode, onSwitchMo
                                     {mode === 'login' ? 'Sign Up' : 'Log In'}
                                 </button>
                             </p>
+
+                            {/* Debug Info */}
+                            <div className="mt-8 pt-4 border-t border-white/5 text-[10px] text-gray-600 font-mono text-left">
+                                <p>Debug Diagnostics:</p>
+                                <p>API: {import.meta.env.VITE_SUPABASE_URL?.substring(0, 20)}...</p>
+                                <p>Key Present: {import.meta.env.VITE_SUPABASE_ANON_KEY ? 'Yes' : 'No'}</p>
+                            </div>
                         </div>
                     </motion.div>
                 </div>

@@ -103,9 +103,9 @@ const AppContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-mesh font-sans text-gray-100 overflow-hidden flex flex-col">
+    <div className="min-h-screen bg-mesh font-sans text-gray-100 overflow-auto lg:overflow-hidden flex flex-col">
       {/* Header */}
-      <header className="px-8 py-6 flex items-center justify-between border-b border-white/5 bg-black/20 backdrop-blur-xl z-20">
+      <header className="px-4 lg:px-8 py-6 flex flex-wrap gap-4 items-center justify-between border-b border-white/5 bg-black/20 backdrop-blur-xl z-20">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-accent-cyan rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/20">
             <Sparkles className="text-white" size={24} />
@@ -155,9 +155,9 @@ const AppContent: React.FC = () => {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 flex overflow-hidden p-6 gap-6">
+      <main className="flex-1 flex flex-col lg:flex-row overflow-visible lg:overflow-hidden p-4 lg:p-6 gap-6">
         {/* Editor Side */}
-        <div className="flex-1 glass rounded-3xl overflow-hidden flex flex-col border border-white/10 shadow-2xl relative">
+        <div className="w-full h-[60vh] lg:h-auto lg:flex-1 glass rounded-3xl overflow-hidden flex flex-col border border-white/10 shadow-2xl relative order-1">
           <div className="px-6 py-4 border-b border-white/5 flex items-center gap-2 bg-white/5">
             <Code2 size={16} className="text-primary-400" />
             <span className="text-xs font-bold uppercase tracking-wider text-gray-400">Source Buffer</span>
@@ -181,7 +181,7 @@ const AppContent: React.FC = () => {
         </div>
 
         {/* Review Side */}
-        <div className="w-[450px] flex flex-col gap-4">
+        <div className="w-full lg:w-[450px] flex flex-col gap-4 order-2 pb-8 lg:pb-0">
           {/* Objective Input */}
           <div className="glass rounded-3xl p-6 border border-white/10 shadow-xl flex flex-col gap-3">
             <div className="flex items-center gap-2">

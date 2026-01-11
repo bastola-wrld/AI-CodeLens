@@ -41,6 +41,12 @@ const AppContent: React.FC = () => {
       return;
     }
 
+    // Check configuration
+    if (!CONFIG.OPENAI_API_KEY) {
+      setError('System Error: AI Core disconnected (Missing API Key). Please check Vercel Environment Variables.');
+      return;
+    }
+
     setIsLoading(true);
     setError(null);
     setReview('');
@@ -96,7 +102,11 @@ const AppContent: React.FC = () => {
       }
     } catch (err: any) {
       console.error(err);
-      setError(err.response?.data?.error?.message || 'Failed to connect to AI Core. Check your API key.');
+      if (err.response?.status === 401 || err.response?.status === 403) {
+        setError('Authentication Error: Invalid API Key. Please check your Vercel Environment Variables.');
+      } else {
+        setError(err.response?.data?.error?.message || 'Failed to connect to AI Core. Check your API key.');
+      }
     } finally {
       setIsLoading(false);
     }

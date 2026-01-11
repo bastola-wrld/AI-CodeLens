@@ -1,6 +1,6 @@
 export const CONFIG = {
-    // ⚠️ SECURITY: Replace this with your actual key, but DO NOT commit it to GitHub!
-    // It is recommended to use environment variables in a real production app.
-    OPENAI_API_KEY: 'YOUR_OPENAI_API_KEY_HERE',
+    // ⚠️ SECURITY: Use VITE_OPENAI_API_KEY environment variable.
+    // In Vercel/Netlify, add 'VITE_OPENAI_API_KEY' to your Environment Variables.
+    OPENAI_API_KEY: import.meta.env.VITE_OPENAI_API_KEY || '',
     MODEL: 'gpt-4o-mini', // Faster and cheaper for simple reviews
 };

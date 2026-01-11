@@ -101,11 +101,20 @@ const AppContent: React.FC = () => {
         setSuggestedCode(match[1].trim());
       }
     } catch (err: any) {
-      console.error(err);
-      if (err.response?.status === 401 || err.response?.status === 403) {
-        setError('Authentication Error: Invalid API Key. Please check your Vercel Environment Variables.');
+      console.error('Full Error Object:', err);
+
+      const status = err.response?.status;
+      const errorMsg = err.response?.data?.error?.message;
+      const networkError = err.message;
+
+      if (status === 401 || status === 403) {
+        setError(`Authentication Error (${status}): Invalid API Key. Please check your Vercel Environment Variables.`);
+      } else if (status === 429) {
+        setError('Quota Exceeded: You have ran out of credits. Check your OpenAI billing.');
+      } else if (errorMsg) {
+        setError(`AI Core Error (${status}): ${errorMsg}`);
       } else {
-        setError(err.response?.data?.error?.message || 'Failed to connect to AI Core. Check your API key.');
+        setError(`Connection Failed: ${networkError || 'Unknown Error'}. Check console for details.`);
       }
     } finally {
       setIsLoading(false);

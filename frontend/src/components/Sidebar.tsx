@@ -29,11 +29,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onClose }) => {
 
     const sidebarContent = (
         <aside className={`
-            fixed md:relative inset-y-0 left-0 z-30
+            fixed md:relative inset-y-0 left-0 z-40 md:z-auto
             w-64 h-full bg-white dark:bg-[#020617] border-r border-gray-100 dark:border-white/5 
-            flex flex-col transition-transform duration-300 md:translate-x-0
-            ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-            md:flex
+            flex flex-col transition-transform duration-300
+            ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         `}>
             <div className="p-8 flex items-center justify-between">
                 <div className="flex items-center gap-3">

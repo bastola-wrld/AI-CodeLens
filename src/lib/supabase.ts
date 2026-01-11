@@ -8,7 +8,13 @@ if (!supabaseUrl || !supabaseAnonKey) {
     console.warn('Missing Supabase credentials. Auth will not work.');
 }
 
-export const supabase = createClient(
-    supabaseUrl || 'https://placeholder.supabase.co',
-    supabaseAnonKey || 'placeholder-key'
-);
+const url = supabaseUrl || 'https://placeholder.supabase.co';
+const key = supabaseAnonKey || 'placeholder-key';
+
+console.log('Supabase Config:', {
+    url: url,
+    keyLength: key?.length,
+    isPlaceholder: url.includes('placeholder')
+});
+
+export const supabase = createClient(url, key);

@@ -105,8 +105,8 @@ const AppContent: React.FC = () => {
   return (
     <div className="min-h-screen bg-mesh font-sans text-gray-100 overflow-hidden flex flex-col">
       {/* Header */}
-      <header className="px-8 py-6 flex items-center justify-between border-b border-white/5 bg-black/20 backdrop-blur-xl z-20">
-        <div className="flex items-center gap-3">
+      <header className="px-4 py-4 md:px-8 md:py-6 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 border-b border-white/5 bg-black/20 backdrop-blur-xl z-20">
+        <div className="flex items-center gap-3 w-full md:w-auto justify-center md:justify-start">
           <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-accent-cyan rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/20">
             <Sparkles className="text-white" size={24} />
           </div>
@@ -115,8 +115,8 @@ const AppContent: React.FC = () => {
             <p className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-bold">Simplified AI Architect</p>
           </div>
         </div>
-        <div className="flex items-center gap-4">
-          <span className="text-[10px] text-gray-500 font-mono tracking-widest uppercase pb-1 border-b border-transparent hover:border-primary-500 hover:text-primary-400 transition-all cursor-pointer">Documentation</span>
+        <div className="flex items-center gap-4 w-full md:w-auto justify-center md:justify-end">
+          <span className="hidden md:inline-block text-[10px] text-gray-500 font-mono tracking-widest uppercase pb-1 border-b border-transparent hover:border-primary-500 hover:text-primary-400 transition-all cursor-pointer">Documentation</span>
 
           {user ? (
             <div className="flex items-center gap-3">
@@ -155,9 +155,9 @@ const AppContent: React.FC = () => {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 flex overflow-hidden p-6 gap-6">
+      <main className="flex-1 flex flex-col md:flex-row overflow-y-auto md:overflow-hidden p-4 md:p-6 gap-4 md:gap-6">
         {/* Editor Side */}
-        <div className="flex-1 glass rounded-3xl overflow-hidden flex flex-col border border-white/10 shadow-2xl relative">
+        <div className="flex-1 glass rounded-3xl overflow-hidden flex flex-col border border-white/10 shadow-2xl relative min-h-[400px] md:min-h-0">
           <div className="px-6 py-4 border-b border-white/5 flex items-center gap-2 bg-white/5">
             <Code2 size={16} className="text-primary-400" />
             <span className="text-xs font-bold uppercase tracking-wider text-gray-400">Source Buffer</span>
@@ -181,7 +181,7 @@ const AppContent: React.FC = () => {
         </div>
 
         {/* Review Side */}
-        <div className="w-[450px] flex flex-col gap-4">
+        <div className="w-full md:w-[450px] flex flex-col gap-4 flex-shrink-0">
           {/* Objective Input */}
           <div className="glass rounded-3xl p-6 border border-white/10 shadow-xl flex flex-col gap-3">
             <div className="flex items-center gap-2">
